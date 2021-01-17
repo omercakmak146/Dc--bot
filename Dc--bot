@@ -1,0 +1,120 @@
+const Discord = require('discord.js');
+const mypoint = require('./point.json');
+const client = new Discord.Client();
+const işaret = require('./işaret.json');
+const {Client, MessageEmbed} = require ('discord.js');
+var prefix = işaret.prefix
+var point = mypoint.point
+
+client.on('message', message => {
+  if (!message.guild) return;
+  if (message.content.startsWith('-kick')) {
+    if (!message.member.hasPermission('ADMINISTRATOR')) return message.channel.send('Kickleme yetkin bulunmuyor.')
+    const user = message.mentions.users.first();
+    if (user) {
+      const member = message.guild.member(user);
+      if (member) {
+        member
+          .kick()
+          .then(() => {
+          const log = message.guild.channels.cache.find(channel => channel.name === 'pıuhl');
+           log.send(`${user.tag} Kişisi kicklenmiştir`);
+          })
+          .catch(err => {
+            message.reply('Hata, lütfen tekrar dene.');
+            console.error(err);
+          });
+      } else {
+        message.reply("Sunucuda böyle biri yok");
+      }
+    } else {
+      message.reply("Atılacak kişiyi yazmadın");
+    }
+  }
+});
+  
+
+client.on('message', message => {
+  if (!message.guild) return;
+if (message.content.startsWith('-ban')) {
+    if (!message.member.hasPermission('ADMINISTRATOR')) return message.channel.send('Banlama yetkin bulunmuyor.')
+    const user = message.mentions.users.first();
+    if (user) {
+      const member = message.guild.member(user);
+      if (member) {
+        member
+          .ban()
+          .then(() => {
+          const log = message.guild.channels.cache.find(channel => channel.name === 'pıuhl');
+           log.send(`${user.tag} kişisi banlanmıştır. Yallah köyüne.`);
+          })
+          .catch(err => {
+            message.reply('Hata, lütfen tekrar dene.');
+            console.error(err);
+          });
+      } else {
+        message.reply("Sunucuda böyle biri yok.");
+      }
+    } else {
+      message.reply("Yasaklanacak kişiyi yazmadın.");
+    }
+  }
+});
+
+client.on('ready', () => {
+  console.log(`Bot aktif ${client.user.tag}!`);
+  client.user.setActivity('NİX BOT HİZMETİNİZDE !', {type: 'WATCHING'
+})
+.then(presence => console.log('$(presence.activities[0].name'))
+.catch(console.error);
+
+});
+
+client.on('guildMemberAdd', member => {
+const join = client.channels.cache.get(`796824159337447434`)
+join.send(`Sunucumuza Hoş Geldin !, ${member}`);
+
+});
+
+client.on('guildMemberRemove', member => {
+  const join = client.channels.cache.get(`796824159337447434`)
+  join.send(`${member}, Sunucudan ayrıldı.`);
+  
+  });
+  
+
+client.on('message', msg => {
+  if (msg.content.toLowerCase() === 'ping') {
+    msg.reply('Pong!');
+  }
+});
+
+client.on('message', msg => {
+  if (msg.content.toLowerCase() === prefix + 'help') {
+    msg.reply('Daha ayarlamadık yarram');
+  }
+});
+
+client.on('message', msg => {
+  if (msg.content.toLowerCase() === prefix + 'sunucubilgisi')  {
+    msg.react('👾')
+    const kanal = new MessageEmbed() 
+
+
+    .setTitle('Sunucu Bilgisi by Nix')
+    .setDescription('Sunucu Bilgisi hizmeti çok yakında sizlerle olacaktır🥳')
+    .setAuthor('Nix')
+    .setColor("RANDOM")
+    .setThumbnail('https://cdn.discordapp.com/attachments/794145428811284525/796797273371443200/unknown.png');
+    msg.channel.send(kanal)
+    
+  }
+});
+
+client.login('Nzk2NDU5NTA4NzgwMTA1NzI4.X_YOuA.yp1vQksCLBNsYuEKcW2oQBgtnu0');
+
+client.on('message', msg => {
+  if (msg.content.toLowerCase() === 'sa')  {
+    msg.reply('Aleyküm Selam.');
+  }
+});
